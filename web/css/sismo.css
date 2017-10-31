@@ -170,11 +170,10 @@ a:hover {
 }
 
 .status {
-    float: right;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    color: #333 !important;
-    font-size: 15px;
+    float: left;
+    padding-right: 10px;
+    /*color: #333 !important;*/
+    font-size: 32px;
 }
 
 footer {
