@@ -40,5 +40,8 @@
     "autoload": {
         "psr-0": { "Sismo": "src/" }
     },
-    "bin": ["sismo"]
+    "bin": ["sismo"],
+    "scripts": {
+        "serve": "php -S localhost:9000 -t web web/index_dev.php"
+    }
 }
