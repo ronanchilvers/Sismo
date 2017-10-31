@@ -9,15 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+use SensioLabs\AnsiConverter\Theme\SolarizedXTermTheme;
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
-use Sismo\Sismo;
-use Sismo\Project;
-use Sismo\Storage\Storage;
 use Sismo\Builder;
+use Sismo\Project;
+use Sismo\Sismo;
+use Sismo\Storage\Storage;
 use Symfony\Component\HttpFoundation\Response;
-use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 
 $app = new Application();
 $app->register(new UrlGeneratorServiceProvider());
@@ -26,7 +27,12 @@ $app->register(new TwigServiceProvider(), array(
 ));
 $app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
     $twig->setCache($app['twig.cache.path']);
-    $twig->addGlobal('ansi_to_html', new AnsiToHtmlConverter());
+    $twig->addGlobal(
+        'ansi_to_html',
+        new AnsiToHtmlConverter(
+            new SolarizedXTermTheme()
+        )
+    );
 
     return $twig;
 }));
