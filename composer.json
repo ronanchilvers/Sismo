@@ -41,6 +41,9 @@
         "psr-0": { "Sismo": "src/" }
     },
     "bin": ["sismo"],
+    "config": {
+        "process-timeout" : 0
+    },
     "scripts": {
         "serve": "php -S localhost:9000 -t web web/index_dev.php"
     }
