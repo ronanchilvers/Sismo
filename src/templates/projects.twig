@@ -9,6 +9,7 @@
         <ul id="projects">
         {% for i, project in projects %}
             <li class="{{ project.statuscode }}">
+                <a href="{{ path('project', { 'slug': project.slug }) }}">
                 <div class="status">
                 {% if 'success' == project.statuscode %}
                     {% set icon = 'check' %}
@@ -17,7 +18,6 @@
                 {% endif %}
                     <i class="fa fa-{{icon}}" aria-hidden="true"></i>
                 </div>
-                <a href="{{ path('project', { 'slug': project.slug }) }}">
                     {{ project.shortname }}
                     {% if project.subname %}<small> &mdash; {{ project.subname }}</small>{% endif %}
                 </a>
