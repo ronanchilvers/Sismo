@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:400,600');
+﻿@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:400,600');
 
 /*
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
@@ -56,10 +56,6 @@ h2 {
     visibility: hidden;
 }
 
-#builds h2 {
-    font-size: 21px;
-}
-
 #content, footer {
     width: 95%;
     max-width: 1000px;
@@ -102,7 +98,7 @@ a:hover {
     max-width: 300px;
     border: 1px solid #ccc;
     background-color: rgb(250, 250, 250);
-    color: #eee;
+    /*color: #eee;*/
 }
 #projects li .icon,
 #projects li .status {
@@ -131,6 +127,8 @@ a:hover {
     vertical-align: middle;
     font-size: 1.2rem;
     z-index: 10;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
 }
 
 .success {
@@ -161,8 +159,8 @@ a:hover {
     margin: 40px 0 15px 0;
     border-radius: 5px;
     background-color: rgb(152, 152, 152);
+    color: inherit;
 }
-
 #build a {
     color: inherit;
 }
@@ -171,7 +169,7 @@ a:hover {
 }
 
 #output {
-    margin-bottom: 15px;
+    margin-bottom: 35px;
 }
 
 #output pre {
@@ -179,14 +177,15 @@ a:hover {
     color: #fff;
     padding: 15px;
     overflow: auto;
-    max-height: 300px;
+    max-height: 600px;
     font-size: 16px;
     font-family: Source Code Pro, Source Sans Pro, monospace;
     border-radius: 5px;
 }
 
 .meta {
-    font-size: 18px;
+    font-size: 1.1rem;
+    color: inherit;
 }
 .meta--right {
     float: right;
@@ -197,19 +196,27 @@ a:hover {
     margin-left: 10px;
 }
 
+#builds {
+    margin-top: 30px;
+}
+
+#builds h2 {
+    font-size: 21px;
+}
+
 #builds > li {
     padding: 8px 12px;
     margin-bottom: 5px;
     border-radius: 5px;
 }
 
-#builds > li a {
+/*#builds > li a {
     color: #f00;
-}
+}*/
 
-#builds .meta {
+/*#builds .meta {
     font-size: 16px;
-}
+}*/
 
 .commit {
     float: right;
