@@ -28,6 +28,7 @@ class Project
     protected $branch = 'master';
     protected $command;
     protected $urlPattern;
+    protected $coveragePath = 'build/logs/clover.xml';
     protected $commits = array();
     protected $building = false;
     protected $notifiers = array();
@@ -370,6 +371,30 @@ class Project
     public function setUrlPattern($pattern)
     {
         $this->urlPattern = $pattern;
+
+        return $this;
+    }
+
+    /**
+     * Get the coverage log path.
+     *
+     * @return string
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function getCoveragePath()
+    {
+        return $this->coveragePath;
+    }
+
+    /**
+     * Set the coverage log path.
+     *
+     * @param string $value
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function setCoveragePath($value)
+    {
+        $this->coveragePath = $value;
 
         return $this;
     }

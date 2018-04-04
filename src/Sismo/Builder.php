@@ -115,6 +115,43 @@ class Builder
         return explode("\n", trim($process->getOutput()), 4);
     }
 
+    /**
+     * Does the current project have coverage information?
+     *
+     * @return boolean
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function getCoverage()
+    {
+        if (false === $coveragePath = $this->project->getCoveragePath()) {
+            return 0;
+        }
+        $coveragePath = implode(DIRECTORY_SEPARATOR, [
+            $this->buildDir,
+            $coveragePath
+        ]);
+        if (!file_exists($coveragePath)) {
+            return 0;
+        }
+        if (!function_exists('simplexml_load_file')) {
+            return 0;
+        }
+        if (false == ($xml = simplexml_load_file($coveragePath))) {
+            return 0;
+        }
+        if (!isset($xml->project, $xml->project->metrics)) {
+            return 0;
+        }
+        $metrics = $xml->project->metrics;
+        $coverage = (
+            $metrics['coveredconditionals'] + $metrics['coveredstatements'] + $metrics['coveredmethods']
+        ) / (
+            $metrics['conditionals'] + $metrics['statements'] + $metrics['methods']
+        ) * 100;
+
+        return (int) $coverage;
+    }
+
     protected function getGitCommand($command, array $replace = array())
     {
         $replace = array_merge(array(

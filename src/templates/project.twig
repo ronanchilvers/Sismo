@@ -44,6 +44,9 @@
     <h2>
         {{ commit.message }}
     </h2>
+    <div class="meta meta--right">
+        coverage <em>{{ commit.coverage }}%</em>
+    </div>
     <div class="meta">
         by <em>{{ commit.author }}</em> on <em>{{ commit.date|date('j M Y H:i') }}</em>
     </div>

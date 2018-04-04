@@ -66,7 +66,7 @@ class PdoStorage implements StorageInterface
      */
     public function getCommit(Project $project, $sha)
     {
-        $stmt = $this->db->prepare('SELECT slug, sha, author, date, build_date, message, status, output FROM `commit` WHERE slug = :slug AND sha = :sha');
+        $stmt = $this->db->prepare('SELECT slug, sha, author, date, build_date, message, status, output, coverage FROM `commit` WHERE slug = :slug AND sha = :sha');
         $stmt->bindValue(':slug', $project->getSlug(), \PDO::PARAM_STR);
         $stmt->bindValue(':sha', $sha, \PDO::PARAM_STR);
 
@@ -108,7 +108,7 @@ class PdoStorage implements StorageInterface
         if ($stmt->fetchColumn(0)) {
             $stmt = $this->db->prepare('UPDATE `commit` SET slug = :slug, sha = :sha, author = :author, date = :date, message = :message, status = :status, output = :output, build_date = :build_date WHERE slug = :slug');
         } else {
-            $stmt = $this->db->prepare('INSERT INTO `commit` (slug, sha, author, date, message, status, output, build_date) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date)');
+            $stmt = $this->db->prepare('INSERT INTO `commit` (slug, sha, author, date, message, status, output, build_date, coverage) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date, :coverage)');
         }
 
         $stmt->bindValue(':slug', $project->getSlug(), \PDO::PARAM_STR);
@@ -119,6 +119,7 @@ class PdoStorage implements StorageInterface
         $stmt->bindValue(':status', 'building', \PDO::PARAM_STR);
         $stmt->bindValue(':output', '', \PDO::PARAM_STR);
         $stmt->bindValue(':build_date', '', \PDO::PARAM_STR);
+        $stmt->bindValue(':coverage', 0, \PDO::PARAM_INT);
 
         if (false === $stmt->execute()) {
             // @codeCoverageIgnoreStart
@@ -174,7 +175,7 @@ class PdoStorage implements StorageInterface
         }
 
         // related commits
-        $stmt = $this->db->prepare('SELECT sha, author, date, build_date, message, status, output FROM `commit` WHERE slug = :slug ORDER BY `status` = "building" DESC, build_date DESC LIMIT 100');
+        $stmt = $this->db->prepare('SELECT sha, author, date, build_date, message, status, output, coverage FROM `commit` WHERE slug = :slug ORDER BY `status` = "building" DESC, build_date DESC LIMIT 100');
         $stmt->bindValue(':slug', $project->getSlug(), \PDO::PARAM_STR);
 
         if (false === $stmt->execute()) {
@@ -213,12 +214,13 @@ class PdoStorage implements StorageInterface
      */
     public function updateCommit(Commit $commit)
     {
-        $stmt = $this->db->prepare('UPDATE `commit` SET status = :status, output = :output, build_date = :current_date WHERE slug = :slug AND sha = :sha');
+        $stmt = $this->db->prepare('UPDATE `commit` SET status = :status, output = :output, build_date = :current_date, coverage = :coverage WHERE slug = :slug AND sha = :sha');
         $stmt->bindValue(':slug', $commit->getProject()->getSlug(), \PDO::PARAM_STR);
         $stmt->bindValue(':sha', $commit->getSha(), \PDO::PARAM_STR);
         $stmt->bindValue(':status', $commit->getStatusCode(), \PDO::PARAM_STR);
         $stmt->bindValue(':output', $commit->getOutput(), \PDO::PARAM_STR);
         $stmt->bindValue(':current_date', date('Y-m-d H:i:s'), \PDO::PARAM_STR);
+        $stmt->bindValue(':coverage', $commit->getCoverage(), \PDO::PARAM_INT);
 
         if (false === $stmt->execute()) {
             // @codeCoverageIgnoreStart
@@ -238,6 +240,7 @@ class PdoStorage implements StorageInterface
         }
         $commit->setStatusCode($result['status']);
         $commit->setOutput($result['output']);
+        $commit->setCoverage($result['coverage']);
 
         return $commit;
     }

@@ -78,6 +78,9 @@ class Sismo
         } else {
             $commit->setStatusCode('success');
             $commit->setOutput($process->getOutput());
+            if ($coverage = $this->builder->getCoverage()) {
+                $commit->setCoverage($coverage);
+            }
         }
 
         $this->storage->updateCommit($commit);

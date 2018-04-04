@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `commit` (
     author        TEXT,
     status        TEXT,
     output        BLOB,
+    coverage      INT DEFAULT (0),
     build_date    TEXT DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (slug, sha),
     CONSTRAINT slug FOREIGN KEY (slug) REFERENCES project(slug) ON DELETE CASCADE

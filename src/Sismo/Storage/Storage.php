@@ -30,7 +30,7 @@ class Storage implements StorageInterface
 
     public function getCommit(Project $project, $sha)
     {
-        $stmt = $this->db->prepare('SELECT slug, sha, author, date, build_date, message, status, output FROM `commit` WHERE slug = :slug AND sha = :sha');
+        $stmt = $this->db->prepare('SELECT slug, sha, author, date, build_date, message, status, output, coverage FROM `commit` WHERE slug = :slug AND sha = :sha');
         $stmt->bindValue(':slug', $project->getSlug(), SQLITE3_TEXT);
         $stmt->bindValue(':sha', $sha, SQLITE3_TEXT);
 
@@ -45,7 +45,7 @@ class Storage implements StorageInterface
 
     public function initCommit(Project $project, $sha, $author, \DateTime $date, $message)
     {
-        $stmt = $this->db->prepare('INSERT OR REPLACE INTO `commit` (slug, sha, author, date, message, status, output, build_date) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date)');
+        $stmt = $this->db->prepare('INSERT OR REPLACE INTO `commit` (slug, sha, author, date, message, status, output, build_date, coverage) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date, :coverage)');
         $stmt->bindValue(':slug', $project->getSlug(), SQLITE3_TEXT);
         $stmt->bindValue(':sha', $sha, SQLITE3_TEXT);
         $stmt->bindValue(':author', $author, SQLITE3_TEXT);
@@ -54,6 +54,7 @@ class Storage implements StorageInterface
         $stmt->bindValue(':status', 'building', SQLITE3_TEXT);
         $stmt->bindValue(':output', '', SQLITE3_TEXT);
         $stmt->bindValue(':build_date', '', SQLITE3_TEXT);
+        $stmt->bindValue(':coverage', 0, SQLITE3_INTEGER);
 
         if (false === $result = $stmt->execute()) {
             // @codeCoverageIgnoreStart
@@ -86,7 +87,7 @@ class Storage implements StorageInterface
         }
 
         // related commits
-        $stmt = $this->db->prepare('SELECT sha, author, date, build_date, message, status, output FROM `commit` WHERE slug = :slug ORDER BY `status` = "building" DESC, build_date DESC LIMIT 100');
+        $stmt = $this->db->prepare('SELECT sha, author, date, build_date, message, status, output, coverage FROM `commit` WHERE slug = :slug ORDER BY `status` = "building" DESC, build_date DESC LIMIT 100');
         $stmt->bindValue(':slug', $project->getSlug(), SQLITE3_TEXT);
 
         if (false === $results = $stmt->execute()) {
@@ -120,11 +121,12 @@ class Storage implements StorageInterface
 
     public function updateCommit(Commit $commit)
     {
-        $stmt = $this->db->prepare('UPDATE `commit` SET status = :status, output = :output, build_date = CURRENT_TIMESTAMP WHERE slug = :slug AND sha = :sha');
+        $stmt = $this->db->prepare('UPDATE `commit` SET status = :status, output = :output, build_date = CURRENT_TIMESTAMP, coverage = :coverage WHERE slug = :slug AND sha = :sha');
         $stmt->bindValue(':slug', $commit->getProject()->getSlug(), SQLITE3_TEXT);
         $stmt->bindValue(':sha', $commit->getSha(), SQLITE3_TEXT);
         $stmt->bindValue(':status', $commit->getStatusCode(), SQLITE3_TEXT);
         $stmt->bindValue(':output', $commit->getOutput(), SQLITE3_TEXT);
+        $stmt->bindValue(':coverage', $commit->getCoverage(), SQLITE3_INTEGER);
 
         if (false === $stmt->execute()) {
             // @codeCoverageIgnoreStart
@@ -144,6 +146,7 @@ class Storage implements StorageInterface
         }
         $commit->setStatusCode($result['status']);
         $commit->setOutput($result['output']);
+        $commit->setCoverage($result['coverage']);
 
         return $commit;
     }

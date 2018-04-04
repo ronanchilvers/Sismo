@@ -26,6 +26,7 @@ class Commit
     private $build;
     private $output;
     private $buildDate;
+    private $coverage = 0;
     private $status = 'building';
     private $statuses = array('building' => 'building', 'success' => 'succeeded', 'failed' => 'failed');
 
@@ -253,5 +254,27 @@ class Commit
     public function setBuildDate(\DateTime $date)
     {
         $this->buildDate = $date;
+    }
+
+    /**
+     * Get the % coverage.
+     *
+     * @return int
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function getCoverage()
+    {
+        return $this->coverage;
+    }
+
+    /**
+     * Set the % coverage.
+     *
+     * @param int $value
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function setCoverage($value)
+    {
+        $this->coverage = $value;
     }
 }
