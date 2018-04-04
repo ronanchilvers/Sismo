@@ -14,13 +14,14 @@ html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pr
 }
 
 html {
-    background-color: #182d33;
+    font-size: 100%;
     box-sizing: border-box;
+    font-family: Source Sans Pro, sans-serif;
 }
 body {
-    font-family: Source Sans Pro, sans-serif;
-    color: #fff;
+    color: #555;
     font-size: 16px;
+    line-height: 1.25rem;
 }
 
 em {
@@ -39,7 +40,7 @@ h1 {
 }
 
 h1 a {
-    color: #fff;
+    color: #333;
 }
 
 h2 {
@@ -63,13 +64,17 @@ h2 {
     width: 95%;
     max-width: 1000px;
     margin: 0 auto;
-    background: #274751;
-    padding: 15px 24px;
+    /*background: #274751;*/
+    padding: 15px 20px;
 }
 
 #content {
-    padding-top: 160px;
-    background: #274751 url(../images/header.png) no-repeat right top;
+    /*padding-top: 160px;*/
+    /*background: #274751 url(../images/header.png) no-repeat right top;*/
+}
+
+#content h1 {
+    text-align: center;
 }
 
 a {
@@ -80,24 +85,6 @@ a:hover {
     /*text-decoration: underline;*/
 }
 
-.success {
-    background-color: #00a65a !important;
-}
-    .success:hover {
-        background-color: #00cc70 !important;
-    }
-
-.failed {
-    background-color: #dd4b39 !important;
-}
-    .failed:hover {
-        background-color: #e57566 !important;
-    }
-
-.success a, .failed a {
-    color: #fff !important;
-}
-
 #projects {
     margin: 15px 0;
     margin-top: 30px;
@@ -106,28 +93,81 @@ a:hover {
 #projects li {
     position: relative;
     padding: 0;
-    margin-bottom: 5px;
-    font-size: 30px;
+    margin: 10px;
     vertical-align: bottom;
     border-radius: 5px;
+    float: left;
+    width: 100%;
+    height: 200px;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    background-color: rgb(250, 250, 250);
+    color: #eee;
 }
-
+#projects li .icon,
+#projects li .status {
+    z-index: 0;
+    position: absolute;
+    color: inherit;
+}
+#projects li .icon {
+    right: 5%;
+    bottom: 5%;
+    font-size: 7rem;
+}
+#projects li .status {
+    left: 10%;
+    bottom: 10%;
+    font-size: 4rem;
+}
 #projects li a {
+    position: relative;
     display: block;
-    /*color: #555;*/
+    color: inherit;
     padding: 15px;
     width: 100%;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    z-index: 10;
+}
+
+.success {
+    background-color: rgb(197, 229, 200) !important;
+    border: 1px solid rgb(63, 104, 38);
+    color: rgb(63, 104, 38) !important;
+}
+    .success:hover {
+        background-color: rgb(139, 229, 148) !important;
+    }
+
+.failed {
+    background-color: rgb(250,220,220) !important;
+    border: 1px solid rgb(200, 50, 50);
+    color: rgb(200, 50, 50) !important;
+}
+    .failed:hover {
+        background-color: rgb(250,200,200) !important;
+    }
+
+#projects li.success {
+}
+#projects li.failed {
 }
 
 #build {
     padding: 10px 15px;
-    margin-bottom: 15px;
+    margin: 40px 0 15px 0;
     border-radius: 5px;
     background-color: rgb(152, 152, 152);
 }
 
 #build a {
-    color: #555;
+    color: inherit;
+}
+#build h2 {
+    margin-bottom: 1rem;
 }
 
 #output {
@@ -164,7 +204,7 @@ a:hover {
 }
 
 #builds > li a {
-    color: #fff;
+    color: #f00;
 }
 
 #builds .meta {
@@ -183,9 +223,8 @@ a:hover {
 }
 
 .status {
-    float: left;
+    float: right;
     padding-right: 10px;
-    /*color: #333 !important;*/
     font-size: 32px;
 }
 
@@ -197,17 +236,17 @@ footer {
     border-top: 1px solid #42798a;
 }
 
-footer span {
+/*footer span {
     margin-right: 40px;
-}
+}*/
 
-footer img {
+/*footer img {
     margin: 0 4px;
     vertical-align: middle;
-}
+}*/
 
 footer a {
-    color: #fff;
+    color: #000;
 }
 
 .clearfix:after { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; overflow: hidden; }

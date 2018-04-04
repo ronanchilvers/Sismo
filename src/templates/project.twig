@@ -9,8 +9,8 @@
 
     <h1>
         <a href="{{ path('project', { 'slug': project.slug }) }}">
-            {{ project.shortname }}
-            {% if project.subname %}<small> &mdash; {{ project.subname }}</small>{% endif %}
+            Sismo &mdash; {{ project.shortname }}
+            {% if project.subname %}<small> ({{ project.subname }})</small>{% endif %}
         </a>
     </h1>
 

@@ -307,6 +307,22 @@ class Project
     }
 
     /**
+     * Get the repository type.
+     *
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function getType()
+    {
+        $type = basename(str_replace('\\', '/', get_class($this)));
+        $type = str_replace('project', '', strtolower($type));
+        if (empty($type)) {
+            return 'standard';
+        }
+
+        return $type;
+    }
+
+    /**
      * Gets the command to use to build the project.
      *
      * @return string The build command
