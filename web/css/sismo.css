@@ -184,7 +184,7 @@ a:hover {
 }
 .timeline li {
     position: relative;
-    float: left;
+    float: right;
     width: 2.5em;
     margin: 0 0.1em;
     height: 100%;

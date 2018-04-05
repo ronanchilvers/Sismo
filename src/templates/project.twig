@@ -22,7 +22,14 @@
         {% if commit.coverage and commits is defined and 0 < commits|length %}
             <div id="coverage">
                 <ul class="timeline">
-                {% for cmt in commits|reverse %}
+                    <li class="current">
+                        <a href="{{ path('commit', { 'slug': commit.project.slug, 'sha': commit.sha }) }}" »
+                        title="{{ commit.sha }} @ {{ commit.date|date('H:i - jS F, Y') }}">
+                            <span class="label">{{ commit.coverage }}%</span>
+                            <span class="count" style="height: {{ commit.coverage }}%">{{ commit.coverage }}</span>
+                        </a>
+                    </li>
+                {% for cmt in commits %}
                     <li>
                         <a href="{{ path('commit', { 'slug': cmt.project.slug, 'sha': cmt.sha }) }}" »
                         title="{{ cmt.sha }} @ {{ cmt.date|date('H:i - jS F, Y') }}">
@@ -31,13 +38,6 @@
                         </a>
                     </li>
                 {% endfor %}
-                    <li class="current">
-                        <a href="{{ path('commit', { 'slug': commit.project.slug, 'sha': commit.sha }) }}" »
-                        title="{{ commit.sha }} @ {{ commit.date|date('H:i - jS F, Y') }}">
-                            <span class="label">{{ commit.coverage }}%</span>
-                            <span class="count" style="height: {{ commit.coverage }}%">{{ commit.coverage }}</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         {% endif %}
