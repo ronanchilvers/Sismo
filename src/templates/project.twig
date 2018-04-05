@@ -19,6 +19,29 @@
     {% else %}
         <div class="clearfix {{ commit.statuscode }}" id="build">{{ commit_block(commit) }}</div>
 
+        {% if commit.coverage and commits is defined and 0 < commits|length %}
+            <div id="coverage">
+                <ul class="timeline">
+                {% for cmt in commits|reverse %}
+                    <li>
+                        <a href="{{ path('commit', { 'slug': cmt.project.slug, 'sha': cmt.sha }) }}" »
+                        title="{{ cmt.sha }} @ {{ cmt.date|date('H:i - jS F, Y') }}">
+                            <span class="label">{{ cmt.coverage }}%</span>
+                            <span class="count" style="height: {{ cmt.coverage }}%">{{ cmt.coverage }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+                    <li class="current">
+                        <a href="{{ path('commit', { 'slug': commit.project.slug, 'sha': commit.sha }) }}" »
+                        title="{{ commit.sha }} @ {{ commit.date|date('H:i - jS F, Y') }}">
+                            <span class="label">{{ commit.coverage }}%</span>
+                            <span class="count" style="height: {{ commit.coverage }}%">{{ commit.coverage }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
         {% if commit.isbuilt %}
             <div id="output">
                 <pre>{{ commit.output ? ansi_to_html.convert(commit.output)|raw : 'No output' }}</pre>
@@ -26,7 +49,7 @@
         {% endif %}
 
         {% if commits is defined and commits %}
-            <h1>Builds History</h1>
+            <h1>Build History</h1>
             <ul id="builds">
                 {% for commit in commits %}
                     <li class="{{ commit.statuscode }} cf">{{ commit_block(commit) }}</li>
