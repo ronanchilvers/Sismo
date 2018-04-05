@@ -106,7 +106,7 @@ class PdoStorage implements StorageInterface
         }
 
         if ($stmt->fetchColumn(0)) {
-            $stmt = $this->db->prepare('UPDATE `commit` SET slug = :slug, sha = :sha, author = :author, date = :date, message = :message, status = :status, output = :output, build_date = :build_date WHERE slug = :slug');
+            $stmt = $this->db->prepare('UPDATE `commit` SET slug = :slug, sha = :sha, author = :author, date = :date, message = :message, status = :status, output = :output, build_date = :build_date, coverage = :coverage WHERE slug = :slug');
         } else {
             $stmt = $this->db->prepare('INSERT INTO `commit` (slug, sha, author, date, message, status, output, build_date, coverage) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date, :coverage)');
         }
