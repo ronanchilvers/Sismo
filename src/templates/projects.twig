@@ -11,16 +11,14 @@
         {% for i, project in projects %}
             <li class="{{ project.statuscode }}">
                 <div class="icon"><i class="fa fa-{{ project.type }}" aria-hidden="true"></i></div>
-                <div class="status">
                 {% if 'success' == project.statuscode %}
                     {% set icon = 'check' %}
                 {% else %}
                     {% set icon = 'times' %}
                 {% endif %}
-                    <i class="fa fa-{{icon}}" aria-hidden="true"></i>
-                </div>
                 <a href="{{ path('project', { 'slug': project.slug }) }}">
                     {{ project.shortname }}{% if project.subname %}<br /><small>{{ project.subname }}</small>{% endif %}
+                    <i class="fa fa-{{icon}}" aria-hidden="true"></i>
                 </a>
            </li>
         {% endfor %}
